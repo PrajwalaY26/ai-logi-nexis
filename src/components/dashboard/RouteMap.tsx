@@ -1,7 +1,22 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Clock, DollarSign, Droplets, Zap, Shield, Umbrella, Wind } from "lucide-react";
+import { 
+  CheckCircle2, 
+  Clock, 
+  DollarSign, 
+  Droplets, 
+  Zap, 
+  Shield, 
+  Umbrella, 
+  Wind, 
+  ArrowRight, 
+  TrendingDown, 
+  BarChart3, 
+  AlertTriangle
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 // This is a placeholder for where a real map would go
 // In a real app, you would use a mapping library like Mapbox, Google Maps, etc.
@@ -23,6 +38,10 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
       weather: "Clear",
       weatherIcon: <Wind className="h-4 w-4 text-green-400" />,
       weatherStatus: "Optimal",
+      customsFee: "$320",
+      portCharges: "$480",
+      fuelSurcharge: "$190",
+      riskLevel: "Low",
     },
     {
       id: "cheapest",
@@ -38,6 +57,10 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
       weather: "Mild Rain",
       weatherIcon: <Droplets className="h-4 w-4 text-blue-400" />,
       weatherStatus: "Minimal Delay",
+      customsFee: "$280",
+      portCharges: "$350",
+      fuelSurcharge: "$120",
+      riskLevel: "Medium",
     },
     {
       id: "reliable",
@@ -53,6 +76,10 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
       weather: "Stormy",
       weatherIcon: <Umbrella className="h-4 w-4 text-yellow-400" />,
       weatherStatus: "Alternate Route",
+      customsFee: "$310",
+      portCharges: "$420",
+      fuelSurcharge: "$170",
+      riskLevel: "Low",
     },
   ];
 
@@ -61,10 +88,20 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div className={cn("nexus-card-purple space-y-6 p-6", className)}>
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-white">Smart Route Selection</h2>
-        <span className="rounded-full bg-nexus-purple/20 px-3 py-1 text-xs font-medium text-nexus-purple">
-          AI Optimized
-        </span>
+        <div>
+          <h2 className="text-xl font-semibold text-white">AI Route Optimization</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Ranked routes based on time, cost, and reliability factors
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Badge variant="outline" className="bg-nexus-purple/20 text-nexus-purple">
+            Real-time Data
+          </Badge>
+          <Badge variant="outline" className="bg-nexus-blue/20 text-nexus-blue">
+            AI Optimized
+          </Badge>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
@@ -77,7 +114,7 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
               key={route.id}
               onClick={() => setSelectedRoute(route.id as any)}
               className={cn(
-                "relative flex flex-col items-center justify-center rounded-lg border p-4 transition-all duration-300 hover:scale-[1.02]",
+                "relative flex flex-col rounded-lg border p-4 transition-all duration-300 hover:scale-[1.02]",
                 isSelected
                   ? `${route.borderColor} ${route.bgColor} shadow-lg`
                   : "border-white/10 bg-white/5 hover:bg-white/10"
@@ -98,13 +135,28 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
               
               <h3 className="mt-3 text-base font-medium text-white">{route.name}</h3>
               
-              <div className="mt-2 flex w-full items-center justify-between text-sm text-muted-foreground">
-                <div className="flex items-center">
-                  <Clock className="mr-1 h-3 w-3" />
-                  <span>{route.duration}</span>
+              <div className="mt-3 space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Transit Time:</span>
+                  <span className="font-medium text-white">{route.duration}</span>
                 </div>
-                <div className="flex items-center font-medium">
-                  <span className={route.color}>{route.cost}</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Total Cost:</span>
+                  <span className={`font-medium ${route.color}`}>{route.cost}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Risk Level:</span>
+                  <span className="font-medium text-white">{route.riskLevel}</span>
+                </div>
+              </div>
+              
+              <div className="mt-3 flex items-center justify-between text-[10px] text-muted-foreground">
+                <div className="flex items-center">
+                  {route.weatherIcon}
+                  <span className="ml-1">{route.weatherStatus}</span>
+                </div>
+                <div className="flex items-center">
+                  <span>{route.modes.join(" → ")}</span>
                 </div>
               </div>
             </button>
@@ -171,13 +223,22 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
                     </div>
                   );
                 })}
+                
+                {/* Weather Alert for Reliable Route */}
+                {selectedRoute === "reliable" && (
+                  <div className="absolute right-[40%] top-[45%] animate-pulse">
+                    <div className="rounded-lg bg-yellow-500/30 p-1 shadow-lg backdrop-blur-sm">
+                      <AlertTriangle className="h-5 w-5 text-yellow-400" />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
         
         {/* Route Details Overlay */}
-        <div className="absolute bottom-4 right-4 max-w-xs rounded-lg bg-background/90 p-4 shadow-lg backdrop-blur-md border border-white/10">
+        <div className="absolute bottom-4 right-4 max-w-md rounded-lg bg-background/90 p-4 shadow-lg backdrop-blur-md border border-white/10">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-medium text-white">Route Details</h4>
             <div className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 text-xs">
@@ -186,23 +247,55 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
             </div>
           </div>
           
-          <div className="mt-3 space-y-2 text-xs">
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Origin:</span>
-              <span className="font-medium text-white">Shanghai, China</span>
+          <div className="mt-3 grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Origin:</span>
+                <span className="font-medium text-white">Shanghai, China</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-muted-foreground">Destination:</span>
+                <span className="font-medium text-white">Rotterdam, Netherlands</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-muted-foreground">Distance:</span>
+                <span className="font-medium text-white">11,425 km</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-muted-foreground">CO₂ Emissions:</span>
+                <span className="font-medium text-white">{selectedRouteDetails?.co2}</span>
+              </div>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Destination:</span>
-              <span className="font-medium text-white">Rotterdam, Netherlands</span>
+            
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Customs Fee:</span>
+                <span className="font-medium text-white">{selectedRouteDetails?.customsFee}</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-muted-foreground">Port Charges:</span>
+                <span className="font-medium text-white">{selectedRouteDetails?.portCharges}</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-muted-foreground">Fuel Surcharge:</span>
+                <span className="font-medium text-white">{selectedRouteDetails?.fuelSurcharge}</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-muted-foreground">Transport Modes:</span>
+                <span className="font-medium text-white">{selectedRouteDetails?.modes.join(", ")}</span>
+              </div>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Distance:</span>
-              <span className="font-medium text-white">11,425 km</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">CO₂ Emissions:</span>
-              <span className="font-medium text-white">{selectedRouteDetails?.co2}</span>
-            </div>
+          </div>
+          
+          <div className="mt-3 flex justify-between border-t border-white/10 pt-3">
+            <Button size="sm" variant="outline" className="h-8 gap-1 text-xs">
+              <BarChart3 className="h-3 w-3" />
+              Historical Data
+            </Button>
+            <Button size="sm" className="h-8 gap-1 text-xs bg-nexus-blue hover:bg-nexus-blue/80">
+              Select Route
+              <ArrowRight className="h-3 w-3" />
+            </Button>
           </div>
         </div>
       </div>
