@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { 
   Search, 
   Package, 
@@ -25,7 +26,8 @@ import {
   ChevronRight,
   CheckCircle2,
   AlertCircle,
-  Sparkles
+  Sparkles,
+  Map as MapIcon
 } from "lucide-react";
 
 // Mock tracking data
@@ -372,7 +374,7 @@ const TrackShipment = () => {
                   <div className="aspect-[16/9] w-full overflow-hidden rounded-lg bg-gradient-to-br from-background via-background to-muted border border-white/10">
                     <div className="flex h-full flex-col items-center justify-center p-6">
                       <div className="text-center">
-                        <Map className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+                        <MapIcon className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
                         <h3 className="text-xl font-medium text-white">Interactive Map View</h3>
                         <p className="mt-2 text-sm text-muted-foreground max-w-md">
                           An interactive map showing real-time location and route with weather overlays 
