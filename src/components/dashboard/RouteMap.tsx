@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Clock, DollarSign, Droplets, Lightning, Shield, Umbrella, Wind } from "lucide-react";
+import { CheckCircle2, Clock, DollarSign, Droplets, Zap, Shield, Umbrella, Wind } from "lucide-react";
 
 // This is a placeholder for where a real map would go
 // In a real app, you would use a mapping library like Mapbox, Google Maps, etc.
@@ -12,7 +12,7 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
     {
       id: "fastest",
       name: "Fastest Route",
-      icon: Lightning,
+      icon: Zap,
       color: "text-nexus-blue",
       bgColor: "bg-nexus-blue/20",
       borderColor: "border-nexus-blue/30",

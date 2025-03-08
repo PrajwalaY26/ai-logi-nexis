@@ -106,28 +106,47 @@
     );
     animation: shimmer 2s infinite;
   }
+}
 
-  /* Custom elements */
+/* Custom elements - moved from utilities layer to components layer */
+@layer components {
   .nexus-button {
-    @apply relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium transition-all bg-muted border border-white/10 rounded-md group;
+    @apply relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium transition-all bg-muted border border-white/10 rounded-md;
   }
 
   .nexus-button::before {
-    @apply absolute inset-0 border-0 group-hover:border-[25px] ease-out duration-300;
+    @apply absolute inset-0 border-0 ease-out duration-300;
     content: '';
     border-color: rgba(255, 255, 255, 0.05);
   }
+  
+  /* Add hover effect directly instead of using group */
+  .nexus-button:hover::before {
+    @apply border-[25px];
+  }
 
   .nexus-button-primary {
-    @apply nexus-button bg-nexus-blue/20 hover:bg-nexus-blue/30 hover:shadow-[0_0_15px_-2px_rgba(0,98,255,0.5)];
+    @apply relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium transition-all bg-nexus-blue/20 border border-white/10 rounded-md;
+  }
+  
+  .nexus-button-primary:hover {
+    @apply bg-nexus-blue/30 shadow-[0_0_15px_-2px_rgba(0,98,255,0.5)];
   }
 
   .nexus-button-secondary {
-    @apply nexus-button bg-nexus-purple/20 hover:bg-nexus-purple/30 hover:shadow-[0_0_15px_-2px_rgba(110,54,229,0.5)];
+    @apply relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium transition-all bg-nexus-purple/20 border border-white/10 rounded-md;
+  }
+  
+  .nexus-button-secondary:hover {
+    @apply bg-nexus-purple/30 shadow-[0_0_15px_-2px_rgba(110,54,229,0.5)];
   }
 
   .nexus-button-accent {
-    @apply nexus-button bg-nexus-teal/20 hover:bg-nexus-teal/30 hover:shadow-[0_0_15px_-2px_rgba(0,207,213,0.5)];
+    @apply relative inline-flex items-center justify-center px-5 py-2 overflow-hidden font-medium transition-all bg-nexus-teal/20 border border-white/10 rounded-md;
+  }
+  
+  .nexus-button-accent:hover {
+    @apply bg-nexus-teal/30 shadow-[0_0_15px_-2px_rgba(0,207,213,0.5)];
   }
 
   .nexus-card {
