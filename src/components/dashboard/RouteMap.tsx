@@ -13,20 +13,23 @@ import {
   ArrowRight, 
   TrendingDown, 
   BarChart3, 
-  AlertTriangle
+  AlertTriangle,
+  MapPin,
+  Truck,
+  Ship,
+  Plane,
+  Train
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-// This is a placeholder for where a real map would go
-// In a real app, you would use a mapping library like Mapbox, Google Maps, etc.
 const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
   const [selectedRoute, setSelectedRoute] = useState<"fastest" | "cheapest" | "reliable">("fastest");
 
   const routes = [
     {
       id: "fastest",
-      name: "Fastest Route",
+      name: "Express Route",
       icon: Zap,
       color: "text-nexus-blue",
       bgColor: "bg-nexus-blue/20",
@@ -42,10 +45,17 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
       portCharges: "$480",
       fuelSurcharge: "$190",
       riskLevel: "Low",
+      reliability: "94%",
+      fuelEfficiency: "Medium",
+      carriers: ["AirFast", "QuickTruck"],
+      customsComplexity: "Medium",
+      transitPoints: ["Shanghai", "Tokyo", "Los Angeles", "Rotterdam"],
+      advantages: ["Fastest transit time", "Priority handling", "Real-time tracking"],
+      disadvantages: ["Higher fuel consumption", "Premium carrier rates", "Limited flexibility"]
     },
     {
       id: "cheapest",
-      name: "Most Economical",
+      name: "Economy Route",
       icon: DollarSign,
       color: "text-nexus-purple",
       bgColor: "bg-nexus-purple/20",
@@ -61,10 +71,17 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
       portCharges: "$350",
       fuelSurcharge: "$120",
       riskLevel: "Medium",
+      reliability: "87%",
+      fuelEfficiency: "High",
+      carriers: ["OceanLine", "RailConnect", "RegionalTruck"],
+      customsComplexity: "Medium",
+      transitPoints: ["Shanghai", "Singapore", "Suez Canal", "Rotterdam"],
+      advantages: ["Lowest total cost", "Efficient fuel usage", "Multiple carrier options"],
+      disadvantages: ["Longer transit time", "More handoff points", "Weather vulnerabilities"]
     },
     {
       id: "reliable",
-      name: "Most Reliable",
+      name: "Balanced Route",
       icon: Shield,
       color: "text-nexus-teal",
       bgColor: "bg-nexus-teal/20",
@@ -80,10 +97,32 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
       portCharges: "$420",
       fuelSurcharge: "$170",
       riskLevel: "Low",
+      reliability: "96%",
+      fuelEfficiency: "Medium",
+      carriers: ["SafeAir", "SecureRail", "PremiumTruck"],
+      customsComplexity: "Low",
+      transitPoints: ["Shanghai", "Dubai", "Frankfurt", "Rotterdam"],
+      advantages: ["Robust contingency plans", "Priority customs clearance", "Advanced risk mitigation"],
+      disadvantages: ["Moderate cost premium", "Limited carrier selection", "Fixed schedule"]
     },
   ];
 
   const selectedRouteDetails = routes.find((r) => r.id === selectedRoute);
+
+  const getTransportIcon = (mode: string) => {
+    switch (mode.toLowerCase()) {
+      case 'air':
+        return <Plane className="h-4 w-4" />;
+      case 'sea':
+        return <Ship className="h-4 w-4" />;
+      case 'truck':
+        return <Truck className="h-4 w-4" />;
+      case 'rail':
+        return <Train className="h-4 w-4" />;
+      default:
+        return <Truck className="h-4 w-4" />;
+    }
+  };
 
   return (
     <div className={cn("nexus-card-purple space-y-6 p-6", className)}>
@@ -91,7 +130,7 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
         <div>
           <h2 className="text-xl font-semibold text-white">AI Route Optimization</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            Ranked routes based on time, cost, and reliability factors
+            Data-driven routes optimized for logistics providers based on time, cost, and reliability
           </p>
         </div>
         <div className="flex gap-2">
@@ -145,8 +184,8 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
                   <span className={`font-medium ${route.color}`}>{route.cost}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Risk Level:</span>
-                  <span className="font-medium text-white">{route.riskLevel}</span>
+                  <span className="text-muted-foreground">Reliability:</span>
+                  <span className="font-medium text-white">{route.reliability}</span>
                 </div>
               </div>
               
@@ -155,8 +194,13 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
                   {route.weatherIcon}
                   <span className="ml-1">{route.weatherStatus}</span>
                 </div>
-                <div className="flex items-center">
-                  <span>{route.modes.join(" → ")}</span>
+                <div className="flex items-center gap-1">
+                  {route.modes.map((mode, idx) => (
+                    <span key={idx} className="flex items-center">
+                      {idx > 0 && <span className="mx-0.5">→</span>}
+                      {getTransportIcon(mode)}
+                    </span>
+                  ))}
                 </div>
               </div>
             </button>
@@ -175,10 +219,36 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KICA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgIDxwYXRoIGQ9Ik0gMjAgMCBMIDAgMCAwIDIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyNTI5MzMiIHN0cm9rZS13aWR0aD0iMC41Ii8+CiAgPC9wYXR0ZXJuPgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiIC8+Cjwvc3ZnPg==')] opacity-30"></div>
                 
                 {/* Origin Point */}
-                <div className="absolute left-[15%] top-[40%] h-4 w-4 rounded-full bg-nexus-blue shadow-[0_0_10px_rgba(0,98,255,0.7)]"></div>
+                <div className="absolute left-[15%] top-[40%] flex flex-col items-center">
+                  <div className="h-4 w-4 rounded-full bg-nexus-blue shadow-[0_0_10px_rgba(0,98,255,0.7)]"></div>
+                  <span className="mt-1 text-[10px] bg-background/80 px-1 rounded text-white">Shanghai</span>
+                </div>
                 
                 {/* Destination Point */}
-                <div className="absolute right-[15%] top-[60%] h-4 w-4 rounded-full bg-nexus-purple shadow-[0_0_10px_rgba(110,54,229,0.7)]"></div>
+                <div className="absolute right-[15%] top-[60%] flex flex-col items-center">
+                  <div className="h-4 w-4 rounded-full bg-nexus-purple shadow-[0_0_10px_rgba(110,54,229,0.7)]"></div>
+                  <span className="mt-1 text-[10px] bg-background/80 px-1 rounded text-white">Rotterdam</span>
+                </div>
+                
+                {/* Transit Points */}
+                {selectedRouteDetails?.transitPoints.slice(1, -1).map((point, index) => {
+                  const total = selectedRouteDetails.transitPoints.length - 2;
+                  const position = {
+                    left: `${25 + (index * 50 / total)}%`,
+                    top: selectedRoute === "cheapest" ? "65%" : selectedRoute === "fastest" ? "45%" : "50%"
+                  };
+                  
+                  return (
+                    <div
+                      key={index}
+                      style={position}
+                      className="absolute flex flex-col items-center"
+                    >
+                      <div className="h-3 w-3 rounded-full bg-white/50 shadow-[0_0_5px_rgba(255,255,255,0.7)]"></div>
+                      <span className="mt-1 text-[10px] bg-background/80 px-1 rounded text-white">{point}</span>
+                    </div>
+                  );
+                })}
                 
                 {/* Route Line */}
                 <svg className="absolute inset-0 h-full w-full" style={{ filter: 'drop-shadow(0 0 4px rgba(110, 54, 229, 0.4))' }}>
@@ -219,16 +289,24 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
                       }`}
                       style={position}
                     >
-                      {mode.charAt(0)}
+                      {getTransportIcon(mode)}
                     </div>
                   );
                 })}
                 
-                {/* Weather Alert for Reliable Route */}
+                {/* Weather Alert for Routes */}
                 {selectedRoute === "reliable" && (
                   <div className="absolute right-[40%] top-[45%] animate-pulse">
                     <div className="rounded-lg bg-yellow-500/30 p-1 shadow-lg backdrop-blur-sm">
                       <AlertTriangle className="h-5 w-5 text-yellow-400" />
+                    </div>
+                  </div>
+                )}
+                
+                {selectedRoute === "cheapest" && (
+                  <div className="absolute right-[60%] top-[65%] animate-pulse">
+                    <div className="rounded-lg bg-blue-500/30 p-1 shadow-lg backdrop-blur-sm">
+                      <Droplets className="h-5 w-5 text-blue-400" />
                     </div>
                   </div>
                 )}
@@ -284,6 +362,17 @@ const RouteMap: React.FC<{ className?: string }> = ({ className }) => {
                 <span className="text-muted-foreground">Transport Modes:</span>
                 <span className="font-medium text-white">{selectedRouteDetails?.modes.join(", ")}</span>
               </div>
+            </div>
+          </div>
+          
+          <div className="mt-2 border-t border-white/10 pt-2">
+            <div className="text-xs">
+              <span className="text-muted-foreground">Key Advantages:</span>
+              <ul className="mt-1 space-y-1 pl-3 list-disc">
+                {selectedRouteDetails?.advantages.slice(0, 2).map((adv, i) => (
+                  <li key={i} className="text-white">{adv}</li>
+                ))}
+              </ul>
             </div>
           </div>
           
