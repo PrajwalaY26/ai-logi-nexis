@@ -13,7 +13,6 @@ import TrackShipment from "./pages/TrackShipment";
 import Profile from "./pages/Profile";
 import Demo from "./pages/Demo";
 import NotFound from "./pages/NotFound";
-import RouteOptimization from "./pages/RouteOptimization";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +31,6 @@ const App = () => (
           <Route path="/track" element={<TrackShipment />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/demo" element={<Demo />} />
-          <Route path="/routes" element={<RouteOptimization />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
