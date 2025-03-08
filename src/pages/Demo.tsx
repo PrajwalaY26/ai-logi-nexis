@@ -169,7 +169,9 @@ const Demo = () => {
                             steps[currentStep - 1].id === 2 ? "bg-nexus-purple/20" :
                             "bg-nexus-teal/20"
                           }`}>
-                            <steps[currentStep - 1].icon className={`h-10 w-10 ${steps[currentStep - 1].color}`} />
+                            {React.createElement(steps[currentStep - 1].icon, { 
+                              className: `h-10 w-10 ${steps[currentStep - 1].color}` 
+                            })}
                           </div>
                           <h3 className="text-xl font-medium text-white mb-2">{steps[currentStep - 1].title}</h3>
                           <p className="text-muted-foreground max-w-lg">{steps[currentStep - 1].description}</p>
@@ -269,7 +271,9 @@ const Demo = () => {
                         <Card key={i} className="wbb-card-interactive flex flex-col">
                           <CardContent className="flex flex-1 flex-col p-4">
                             <div className={`rounded-full p-2 w-fit mb-3 ${video.color.split(' ')[0]}`}>
-                              <video.icon className={`h-5 w-5 ${video.color.split(' ')[1]}`} />
+                              {React.createElement(video.icon, { 
+                                className: `h-5 w-5 ${video.color.split(' ')[1]}` 
+                              })}
                             </div>
                             <h3 className="text-base font-medium">{video.title}</h3>
                             <p className="mt-1 text-xs text-muted-foreground">Duration: {video.duration}</p>
@@ -295,3 +299,4 @@ const Demo = () => {
 };
 
 export default Demo;
+
